@@ -7,25 +7,75 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C1A3FCA290B564900680639 /* Zen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1A3FC9290B564900680639 /* Zen.swift */; };
+		2C1A3FCC290B569B00680639 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1A3FCB290B569B00680639 /* Token.swift */; };
+		2C1A3FCE290B56C100680639 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1A3FCD290B56C100680639 /* NetworkRequest.swift */; };
+		2C1A3FD0290B56DA00680639 /* DiffRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1A3FCF290B56DA00680639 /* DiffRequest.swift */; };
+		2C1A3FD2290B570900680639 /* DiffResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1A3FD1290B570900680639 /* DiffResponse.swift */; };
+		2C1A3FD4290B572600680639 /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1A3FD3290B572600680639 /* AuthResponse.swift */; };
+		2C1A3FD6290B57D400680639 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1A3FD5290B57D400680639 /* NetworkError.swift */; };
+		2C2E551B2919E71C00AE18B6 /* AddTransactionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2E551A2919E71C00AE18B6 /* AddTransactionVC.swift */; };
+		2C2E551E291C9E3200AE18B6 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2C2E551C291C9E3200AE18B6 /* DataModel.xcdatamodeld */; };
 		2C49AC69290B18DE00875658 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C49AC68290B18DE00875658 /* AppDelegate.swift */; };
-		2C49AC6B290B18DE00875658 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C49AC6A290B18DE00875658 /* SceneDelegate.swift */; };
-		2C49AC6D290B18DE00875658 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C49AC6C290B18DE00875658 /* ViewController.swift */; };
-		2C49AC70290B18DE00875658 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C49AC6E290B18DE00875658 /* Main.storyboard */; };
-		2C49AC73290B18DE00875658 /* Cash_Stash.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2C49AC71290B18DE00875658 /* Cash_Stash.xcdatamodeld */; };
 		2C49AC75290B18E000875658 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C49AC74290B18E000875658 /* Assets.xcassets */; };
 		2C49AC78290B18E000875658 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C49AC76290B18E000875658 /* LaunchScreen.storyboard */; };
+		2C49AC80290B192B00875658 /* MenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C49AC7F290B192B00875658 /* MenuVC.swift */; };
+		2C49AC82290B196A00875658 /* TransactionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C49AC81290B196A00875658 /* TransactionsVC.swift */; };
+		2C49AC86290B1C2500875658 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C49AC85290B1C2500875658 /* SettingsVC.swift */; };
+		2C49AC8F290B233400875658 /* NSLayoutConstraintExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C49AC8E290B233400875658 /* NSLayoutConstraintExtension.swift */; };
+		2C49AC91290B236F00875658 /* UsesAutoLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C49AC90290B236F00875658 /* UsesAutoLayout.swift */; };
+		2C49AC95290B372700875658 /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C49AC94290B372700875658 /* SettingCell.swift */; };
+		2C9E0CC6290F3033009FF8F4 /* TransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9E0CC5290F3033009FF8F4 /* TransactionCell.swift */; };
+		2C9E0CC8290F3435009FF8F4 /* TransactionCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9E0CC7290F3435009FF8F4 /* TransactionCellModel.swift */; };
+		2C9E0CCA290F348C009FF8F4 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9E0CC9290F348C009FF8F4 /* UIImageExtension.swift */; };
+		2C9E0CCE290F39B7009FF8F4 /* StateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9E0CCD290F39B7009FF8F4 /* StateManager.swift */; };
+		2CE4414E2963EE44003DFA35 /* TranView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE4414D2963EE44003DFA35 /* TranView.swift */; };
+		2CE441502963EE5E003DFA35 /* TranInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE4414F2963EE5E003DFA35 /* TranInteractor.swift */; };
+		2CE441522963EE70003DFA35 /* TranPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE441512963EE70003DFA35 /* TranPresenter.swift */; };
+		2CE441542963EE7E003DFA35 /* TranEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE441532963EE7E003DFA35 /* TranEntity.swift */; };
+		2CE441562963EE8C003DFA35 /* TranRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE441552963EE8C003DFA35 /* TranRouter.swift */; };
+		2CE441592964ECC9003DFA35 /* SettView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE441582964ECC9003DFA35 /* SettView.swift */; };
+		2CE4415B2964ECDB003DFA35 /* SettInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE4415A2964ECDB003DFA35 /* SettInteractor.swift */; };
+		2CE4415D2964ECE9003DFA35 /* SettPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE4415C2964ECE9003DFA35 /* SettPresenter.swift */; };
+		2CE4415F2964ECF6003DFA35 /* SettEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE4415E2964ECF6003DFA35 /* SettEntity.swift */; };
+		2CE441612964ED02003DFA35 /* SettRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE441602964ED02003DFA35 /* SettRouter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2C1A3FC9290B564900680639 /* Zen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Zen.swift; sourceTree = "<group>"; };
+		2C1A3FCB290B569B00680639 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
+		2C1A3FCD290B56C100680639 /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
+		2C1A3FCF290B56DA00680639 /* DiffRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffRequest.swift; sourceTree = "<group>"; };
+		2C1A3FD1290B570900680639 /* DiffResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffResponse.swift; sourceTree = "<group>"; };
+		2C1A3FD3290B572600680639 /* AuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
+		2C1A3FD5290B57D400680639 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		2C2E551A2919E71C00AE18B6 /* AddTransactionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionVC.swift; sourceTree = "<group>"; };
+		2C2E551D291C9E3200AE18B6 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		2C49AC65290B18DE00875658 /* Cash Stash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cash Stash.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C49AC68290B18DE00875658 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		2C49AC6A290B18DE00875658 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		2C49AC6C290B18DE00875658 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		2C49AC6F290B18DE00875658 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		2C49AC72290B18DE00875658 /* Cash_Stash.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Cash_Stash.xcdatamodel; sourceTree = "<group>"; };
 		2C49AC74290B18E000875658 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2C49AC77290B18E000875658 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2C49AC79290B18E000875658 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2C49AC7F290B192B00875658 /* MenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuVC.swift; sourceTree = "<group>"; };
+		2C49AC81290B196A00875658 /* TransactionsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsVC.swift; sourceTree = "<group>"; };
+		2C49AC85290B1C2500875658 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
+		2C49AC8E290B233400875658 /* NSLayoutConstraintExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSLayoutConstraintExtension.swift; sourceTree = "<group>"; };
+		2C49AC90290B236F00875658 /* UsesAutoLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsesAutoLayout.swift; sourceTree = "<group>"; };
+		2C49AC94290B372700875658 /* SettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
+		2C9E0CC5290F3033009FF8F4 /* TransactionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionCell.swift; sourceTree = "<group>"; };
+		2C9E0CC7290F3435009FF8F4 /* TransactionCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionCellModel.swift; sourceTree = "<group>"; };
+		2C9E0CC9290F348C009FF8F4 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
+		2C9E0CCD290F39B7009FF8F4 /* StateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateManager.swift; sourceTree = "<group>"; };
+		2CE4414D2963EE44003DFA35 /* TranView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranView.swift; sourceTree = "<group>"; };
+		2CE4414F2963EE5E003DFA35 /* TranInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranInteractor.swift; sourceTree = "<group>"; };
+		2CE441512963EE70003DFA35 /* TranPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranPresenter.swift; sourceTree = "<group>"; };
+		2CE441532963EE7E003DFA35 /* TranEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranEntity.swift; sourceTree = "<group>"; };
+		2CE441552963EE8C003DFA35 /* TranRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranRouter.swift; sourceTree = "<group>"; };
+		2CE441582964ECC9003DFA35 /* SettView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettView.swift; sourceTree = "<group>"; };
+		2CE4415A2964ECDB003DFA35 /* SettInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettInteractor.swift; sourceTree = "<group>"; };
+		2CE4415C2964ECE9003DFA35 /* SettPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettPresenter.swift; sourceTree = "<group>"; };
+		2CE4415E2964ECF6003DFA35 /* SettEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettEntity.swift; sourceTree = "<group>"; };
+		2CE441602964ED02003DFA35 /* SettRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettRouter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,16 +108,65 @@
 		2C49AC67290B18DE00875658 /* Cash Stash */ = {
 			isa = PBXGroup;
 			children = (
+				2CE4414C2963EE0C003DFA35 /* Transactions */,
+				2CE441572964ECAB003DFA35 /* Settings */,
 				2C49AC68290B18DE00875658 /* AppDelegate.swift */,
-				2C49AC6A290B18DE00875658 /* SceneDelegate.swift */,
-				2C49AC6C290B18DE00875658 /* ViewController.swift */,
-				2C49AC6E290B18DE00875658 /* Main.storyboard */,
 				2C49AC74290B18E000875658 /* Assets.xcassets */,
 				2C49AC76290B18E000875658 /* LaunchScreen.storyboard */,
 				2C49AC79290B18E000875658 /* Info.plist */,
-				2C49AC71290B18DE00875658 /* Cash_Stash.xcdatamodeld */,
+				2C2E551C291C9E3200AE18B6 /* DataModel.xcdatamodeld */,
+				2C49AC7F290B192B00875658 /* MenuVC.swift */,
+				2C49AC81290B196A00875658 /* TransactionsVC.swift */,
+				2C9E0CC5290F3033009FF8F4 /* TransactionCell.swift */,
+				2C9E0CC7290F3435009FF8F4 /* TransactionCellModel.swift */,
+				2C49AC85290B1C2500875658 /* SettingsVC.swift */,
+				2C49AC94290B372700875658 /* SettingCell.swift */,
+				2C2E551A2919E71C00AE18B6 /* AddTransactionVC.swift */,
+				2C49AC8D290B232300875658 /* Misc */,
+				2C1A3FC9290B564900680639 /* Zen.swift */,
+				2C1A3FCB290B569B00680639 /* Token.swift */,
+				2C1A3FCD290B56C100680639 /* NetworkRequest.swift */,
+				2C1A3FCF290B56DA00680639 /* DiffRequest.swift */,
+				2C1A3FD1290B570900680639 /* DiffResponse.swift */,
+				2C1A3FD3290B572600680639 /* AuthResponse.swift */,
+				2C1A3FD5290B57D400680639 /* NetworkError.swift */,
+				2C9E0CCD290F39B7009FF8F4 /* StateManager.swift */,
 			);
 			path = "Cash Stash";
+			sourceTree = "<group>";
+		};
+		2C49AC8D290B232300875658 /* Misc */ = {
+			isa = PBXGroup;
+			children = (
+				2C49AC90290B236F00875658 /* UsesAutoLayout.swift */,
+				2C49AC8E290B233400875658 /* NSLayoutConstraintExtension.swift */,
+				2C9E0CC9290F348C009FF8F4 /* UIImageExtension.swift */,
+			);
+			path = Misc;
+			sourceTree = "<group>";
+		};
+		2CE4414C2963EE0C003DFA35 /* Transactions */ = {
+			isa = PBXGroup;
+			children = (
+				2CE4414D2963EE44003DFA35 /* TranView.swift */,
+				2CE4414F2963EE5E003DFA35 /* TranInteractor.swift */,
+				2CE441512963EE70003DFA35 /* TranPresenter.swift */,
+				2CE441532963EE7E003DFA35 /* TranEntity.swift */,
+				2CE441552963EE8C003DFA35 /* TranRouter.swift */,
+			);
+			path = Transactions;
+			sourceTree = "<group>";
+		};
+		2CE441572964ECAB003DFA35 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				2CE441582964ECC9003DFA35 /* SettView.swift */,
+				2CE4415A2964ECDB003DFA35 /* SettInteractor.swift */,
+				2CE4415C2964ECE9003DFA35 /* SettPresenter.swift */,
+				2CE4415E2964ECF6003DFA35 /* SettEntity.swift */,
+				2CE441602964ED02003DFA35 /* SettRouter.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -130,7 +229,6 @@
 			files = (
 				2C49AC78290B18E000875658 /* LaunchScreen.storyboard in Resources */,
 				2C49AC75290B18E000875658 /* Assets.xcassets in Resources */,
-				2C49AC70290B18DE00875658 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,24 +239,42 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C49AC73290B18DE00875658 /* Cash_Stash.xcdatamodeld in Sources */,
-				2C49AC6D290B18DE00875658 /* ViewController.swift in Sources */,
+				2C1A3FD0290B56DA00680639 /* DiffRequest.swift in Sources */,
+				2CE441502963EE5E003DFA35 /* TranInteractor.swift in Sources */,
+				2C1A3FCC290B569B00680639 /* Token.swift in Sources */,
+				2C49AC91290B236F00875658 /* UsesAutoLayout.swift in Sources */,
+				2C1A3FD4290B572600680639 /* AuthResponse.swift in Sources */,
+				2C9E0CCA290F348C009FF8F4 /* UIImageExtension.swift in Sources */,
+				2CE441612964ED02003DFA35 /* SettRouter.swift in Sources */,
+				2CE441562963EE8C003DFA35 /* TranRouter.swift in Sources */,
 				2C49AC69290B18DE00875658 /* AppDelegate.swift in Sources */,
-				2C49AC6B290B18DE00875658 /* SceneDelegate.swift in Sources */,
+				2C9E0CC6290F3033009FF8F4 /* TransactionCell.swift in Sources */,
+				2CE441522963EE70003DFA35 /* TranPresenter.swift in Sources */,
+				2C1A3FD2290B570900680639 /* DiffResponse.swift in Sources */,
+				2C49AC82290B196A00875658 /* TransactionsVC.swift in Sources */,
+				2C2E551E291C9E3200AE18B6 /* DataModel.xcdatamodeld in Sources */,
+				2C49AC86290B1C2500875658 /* SettingsVC.swift in Sources */,
+				2CE441542963EE7E003DFA35 /* TranEntity.swift in Sources */,
+				2C2E551B2919E71C00AE18B6 /* AddTransactionVC.swift in Sources */,
+				2C1A3FD6290B57D400680639 /* NetworkError.swift in Sources */,
+				2C9E0CCE290F39B7009FF8F4 /* StateManager.swift in Sources */,
+				2CE4415F2964ECF6003DFA35 /* SettEntity.swift in Sources */,
+				2CE441592964ECC9003DFA35 /* SettView.swift in Sources */,
+				2C1A3FCA290B564900680639 /* Zen.swift in Sources */,
+				2C9E0CC8290F3435009FF8F4 /* TransactionCellModel.swift in Sources */,
+				2CE4414E2963EE44003DFA35 /* TranView.swift in Sources */,
+				2C49AC80290B192B00875658 /* MenuVC.swift in Sources */,
+				2CE4415B2964ECDB003DFA35 /* SettInteractor.swift in Sources */,
+				2C1A3FCE290B56C100680639 /* NetworkRequest.swift in Sources */,
+				2C49AC95290B372700875658 /* SettingCell.swift in Sources */,
+				2CE4415D2964ECE9003DFA35 /* SettPresenter.swift in Sources */,
+				2C49AC8F290B233400875658 /* NSLayoutConstraintExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		2C49AC6E290B18DE00875658 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2C49AC6F290B18DE00875658 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		2C49AC76290B18E000875658 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -220,7 +336,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -274,7 +390,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -296,9 +412,9 @@
 				INFOPLIST_FILE = "Cash Stash/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -324,9 +440,9 @@
 				INFOPLIST_FILE = "Cash Stash/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -364,13 +480,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		2C49AC71290B18DE00875658 /* Cash_Stash.xcdatamodeld */ = {
+		2C2E551C291C9E3200AE18B6 /* DataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				2C49AC72290B18DE00875658 /* Cash_Stash.xcdatamodel */,
+				2C2E551D291C9E3200AE18B6 /* DataModel.xcdatamodel */,
 			);
-			currentVersion = 2C49AC72290B18DE00875658 /* Cash_Stash.xcdatamodel */;
-			path = Cash_Stash.xcdatamodeld;
+			currentVersion = 2C2E551D291C9E3200AE18B6 /* DataModel.xcdatamodel */;
+			path = DataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
