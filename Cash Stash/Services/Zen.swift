@@ -15,7 +15,6 @@ struct Zen {
     private let redirectURI = "cs://oauthcallback"
     private let authURL = "https://api.zenmoney.ru/oauth2/authorize/"
     private let requestTokenURL = "https://api.zenmoney.ru/oauth2/token/"
-    private let networkRequest = NetworkRequest()
     public var isLoggedIn: Bool {
         !Token.shared.accessToken.isEmpty
     }
@@ -45,7 +44,7 @@ struct Zen {
             let encoder = JSONEncoder()
             let diffData = try encoder.encode(diff)
             
-            networkRequest.sendRequest(to: apiURL, withData: diffData, withHeaders: ["Content-Type": "application/json", "Authorization": "Bearer \(Token.shared.accessToken)"], usingMethod: "POST") { result in
+            sendRequest(to: apiURL, withData: diffData, withHeaders: ["Content-Type": "application/json", "Authorization": "Bearer \(Token.shared.accessToken)"], usingMethod: "POST") { result in
                 switch result {
                 case .success(let data):
                     let decoder = JSONDecoder()
@@ -73,7 +72,7 @@ struct Zen {
             let dataString = "grant_type=authorization_code&client_id=\(clientID)&client_secret=\(clienSecret)&code=\(token)&redirect_uri=\(redirectURI)"
             let dataStringEncoded = dataString.data(using: .utf8)
             
-            networkRequest.sendRequest(to: requestTokenURL, withData: dataStringEncoded, withHeaders: ["Content-Type": "application/x-www-form-urlencoded"], usingMethod: "POST") { result in
+            sendRequest(to: requestTokenURL, withData: dataStringEncoded, withHeaders: ["Content-Type": "application/x-www-form-urlencoded"], usingMethod: "POST") { result in
                 switch result {
                 case .success(let data):
                     do {
@@ -87,5 +86,28 @@ struct Zen {
                 }
             }
         }
+    }
+    
+    func sendRequest(to urlString: String, withData data: Data?, withHeaders headers: [String : String]?, usingMethod method: String, withCompletion completion: @escaping (Result<Data, Error>) -> Void) {
+        let encodedURL = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
+        guard let url = URL(string: encodedURL) else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = method
+        if let headers = headers, !headers.isEmpty {
+            for header in headers {
+                request.setValue(header.value, forHTTPHeaderField: header.key)
+            }
+        }
+        request.httpBody = data
+        let session = URLSession.shared
+        session.dataTask(with: request) { data, response, error in
+            if let normalResponse = response as? HTTPURLResponse, (400...600).contains(normalResponse.statusCode) {
+                completion(.failure(NetworkError().returnError(rawValue: normalResponse.statusCode)))
+            } else if let data = data {
+                completion(.success(data))
+            } else {
+                completion(.failure(error!))
+            }
+        }.resume()
     }
 }

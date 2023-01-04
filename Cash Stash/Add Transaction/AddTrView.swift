@@ -1,15 +1,34 @@
 //
-//  AddTransactionVC.swift
+//  AddTrView.swift
 //  Cash Stash
 //
-//  Created by Dmitriy on 11/8/22.
+//  Created by Dmitriy on 1/4/23.
 //
 
 import UIKit
-import CoreData
-//import RealmSwift
 
-class AddTransactionVC: UIViewController {
+//view controller
+//protocol
+//ref to presenter
+
+//MARK: - AddTrView
+protocol AddTrViewProtocol {
+    var presenter: AddTrPresenterProtocol? { get set }
+    var categories: [String] { get set }
+    var titleTextField: UITextField { get set }
+    var amountTextField: UITextField { get set }
+    var transactionTypePicker: UISegmentedControl { get set }
+    var commentTextField: UITextField { get set }
+    var datePicker:UIDatePicker { get set }
+    var pickerSelection: String? { get set }
+    var transactions: [TransactionData] { get set }
+    var completion: (() -> Void)? { get set }
+    func clearTextFields()
+}
+
+class AddTrView: UIViewController, AddTrViewProtocol {
+    var presenter: AddTrPresenterProtocol?
+    
     @UsesAutoLayout
     var addButton = UIButton()
     @UsesAutoLayout
@@ -29,10 +48,8 @@ class AddTransactionVC: UIViewController {
     @UsesAutoLayout
     var stackView = UIStackView()
 //    let realm = try! Realm()
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 //    var transactions: Results<TransactionData>?
     var transactions = [TransactionData]()
-    let defaults = UserDefaults.standard
     var categories = [String]()
     var pickerSelection: String?
     var completion: (() -> Void)?
@@ -41,7 +58,7 @@ class AddTransactionVC: UIViewController {
         super.viewDidLoad()
         title = "ADD TRANSACTION"
         view.backgroundColor = .white
-        categories = defaults.array(forKey: "Categories") as? [String] ?? ["Groceries", "Eating Out", "Bills & Charges"]
+        presenter?.fetchCategoriesFromDefaults()
 //        transactions = [TransactionData(context: context)]
         configureStackView()
         configureTextFields()
@@ -78,6 +95,7 @@ class AddTransactionVC: UIViewController {
         commentTextField.placeholder = "COMMENT(OPTIONAL)"
         commentTextField.borderStyle = .roundedRect
     }
+    
     func configurePickers() {
         transactionTypePicker.insertSegment(withTitle: "INCOME", at: 0, animated: true)
         transactionTypePicker.insertSegment(withTitle: "EXPENCE", at: 1, animated: true)
@@ -110,82 +128,14 @@ class AddTransactionVC: UIViewController {
         commentTextField.text = ""
     }
     
-    func fetchTransactions(with request: NSFetchRequest<TransactionData> = TransactionData.fetchRequest()) {
-//        transactions = realm.objects(TransactionData.self)
-        do {
-            transactions = try context.fetch(request)
-        } catch {
-            print("Error fetching local transactions: \(error)")
-        }
-    }
-    
-    func saveTransaction(transaction: TransactionData) {
-//        let entity = NSEntityDescription.entity(forEntityName: "TransactionData", in: context)!
-//        let tran = NSManagedObject(entity: entity, insertInto: context)
-//        tran.setValue("ggg", forKeyPath: "title")
-        do {
-            try context.save()
-            transactions.append(transaction)
-        } catch {
-            print("Error saving transaction: \(error)")
-        }
-        
-//        do {
-//            try realm.write {
-//                realm.add(transaction)
-//            }
-//        } catch {
-//            print("Error on save transaction")
-//        }
-    }
-    
     @objc func addButtonPressed() {
-        if titleTextField.text!.count > 14 {
-            let alert = UIAlertController(title: "Make your title shorter", message: "Enter a brief title", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        } else if amountTextField.text!.count > 8 {
-            let alert = UIAlertController(title: "Amount Too Long", message: "Enter smaller amount", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        } else if titleTextField.text?.isEmpty == false && amountTextField.text?.isEmpty == false {
-            let newTransaction = TransactionData(context: context)
-            
-            if transactionTypePicker.selectedSegmentIndex == 0 {
-                newTransaction.setValue(true, forKey: "isIncome")
-//                newTransaction.isIncome = true//save differently
-            } else {
-                newTransaction.setValue(false, forKey: "isIncome")
-//                newTransaction.isIncome = false
-            }
-            newTransaction.setValue(titleTextField.text ?? "No title", forKey: "title")
-//            newTransaction.title = titleTextField.text ?? "No title"
-            if let amount = Double(amountTextField.text!) {
-                newTransaction.setValue(amount, forKey: "amount")
-//                newTransaction.amount = amount
-            }
-            newTransaction.setValue(commentTextField.text, forKey: "comment")
-            newTransaction.setValue(datePicker.date, forKey: "date")
-            newTransaction.setValue(pickerSelection, forKey: "category")
-//            newTransaction.comment = commentTextField.text
-//            newTransaction.date = datePicker.date
-//            newTransaction.category = pickerSelection
-            clearTextFields()
-            saveTransaction(transaction: newTransaction)
-            completion?()
-            self.dismiss(animated: true)
-            //            let menuVC = self.storyboard?.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
-            //            self.navigationController?.pushViewController(menuVC, animated: true)
-        } else {
-            let alert = UIAlertController(title: "Fill in all fields", message: "Please provide correct details", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }
+        presenter?.processAdd()
     }
 }
 
-//MARK: - UIPickerViewDelegate
-extension AddTransactionVC: UIPickerViewDelegate {
+
+//MARK: - AddTrView Extensions
+extension AddTrView: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         categories[row]
     }
@@ -194,8 +144,7 @@ extension AddTransactionVC: UIPickerViewDelegate {
     }
 }
 
-//MARK: - UIPickerViewDataSource
-extension AddTransactionVC: UIPickerViewDataSource {
+extension AddTrView: UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         1
     }
@@ -210,8 +159,7 @@ extension AddTransactionVC: UIPickerViewDataSource {
     }
 }
 
-//MARK: - UITextFieldDelegate
-extension AddTransactionVC: UITextFieldDelegate {
+extension AddTrView: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.endEditing(true)
         return true

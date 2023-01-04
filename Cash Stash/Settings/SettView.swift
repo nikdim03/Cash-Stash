@@ -11,12 +11,13 @@ import UIKit
 //protocol
 //ref to presenter
 
+//MARK: - SettView
 protocol SettViewProtocol {
-    var presenter: TranPresenterProtocol? { get set }
+    var presenter: SettPresenterProtocol? { get set }
 }
 
-class SettingsVC: UIViewController, SettViewProtocol {
-    var presenter: TranPresenterProtocol?
+class SettView: UIViewController, SettViewProtocol {
+    var presenter: SettPresenterProtocol?
     @UsesAutoLayout
     var tableView = UITableView()
     let settingsArr = ["Login", "Language", "Currency", "Logout", "About"]
@@ -37,7 +38,33 @@ class SettingsVC: UIViewController, SettViewProtocol {
     }
 }
 
-extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
+
+//MARK: - SettingCell
+class SettingCell: UITableViewCell {
+    @UsesAutoLayout
+    var settingLabel = UILabel()
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        addSubview(settingLabel)
+        configureSettingLabel()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configureSettingLabel() {
+        settingLabel.numberOfLines = 0
+        settingLabel.centerYAnchor.constraint(equalTo: centerYAnchor).activate()
+        settingLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).activate()
+        settingLabel.heightAnchor.constraint(equalToConstant: 80).activate()
+        settingLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 20).activate()
+    }
+}
+
+
+//MARK: - SettView Extensions
+extension SettView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         settingsArr.count
     }

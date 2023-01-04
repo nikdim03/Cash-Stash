@@ -12,14 +12,13 @@ import Foundation
 //ref to view, interactor, presenter
 
 protocol SettPresenterProtocol {
-    var view: TranViewProtocol? { get set }
-    var interactor: TranInteractorProtocol? { get set }
-    var router: TranRouterProtocol? { get set }
+    var view: SettViewProtocol? { get set }
+    var interactor: SettInteractorProtocol? { get set }
+    var router: SettRouterProtocol? { get set }
 }
 
 class SettPresenter: SettPresenterProtocol {
-    var view: TranViewProtocol?
-    var interactor: TranInteractorProtocol?
-    var router: TranRouterProtocol?
-    
+    var view: SettViewProtocol?
+    var interactor: SettInteractorProtocol?
+    var router: SettRouterProtocol?
 }

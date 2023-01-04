@@ -30,7 +30,7 @@ protocol TranViewProtocol {
     var refreshControl: UIRefreshControl { get set }
 }
 
-class TransactionsVC: UIViewController, TranViewProtocol {
+class TranView: UIViewController, TranViewProtocol {
     var presenter: TranPresenterProtocol?
 
     @UsesAutoLayout
@@ -302,7 +302,7 @@ class TransactionCell: UITableViewCell {
 
 
 //MARK: - TransactionsVC Extensions
-extension TransactionsVC: UITableViewDelegate, UITableViewDataSource {
+extension TranView: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         sectionedTransactions.count
     }
@@ -359,7 +359,7 @@ extension TransactionsVC: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-extension TransactionsVC: UISearchBarDelegate, UISearchResultsUpdating {
+extension TranView: UISearchBarDelegate, UISearchResultsUpdating {
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
         //
     }

@@ -23,7 +23,7 @@ class SettRouter: SettRouterProtocol {
     static func start() -> SettRouterProtocol {
         let router = SettRouter()
         
-        let view = SettingsVC()
+        let view = SettView()
         let interactor = SettInteractor()
         let presenter = SettPresenter()
 
@@ -35,7 +35,7 @@ class SettRouter: SettRouterProtocol {
         presenter.interactor = interactor
         presenter.router = router
         
-        router.entry = view as TranEntryPoint
+        router.entry = view as SettEntryPoint
         
         return router
     }

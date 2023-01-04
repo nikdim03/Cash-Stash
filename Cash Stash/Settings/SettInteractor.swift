@@ -12,10 +12,9 @@ import Foundation
 //ref to presenter
 
 protocol SettInteractorProtocol {
-    var presenter: SettInteractorProtocol? { get set }
+    var presenter: SettPresenterProtocol? { get set }
 }
 
 class SettInteractor: SettInteractorProtocol {
-    var presenter: SettInteractorProtocol?
-    
+    var presenter: SettPresenterProtocol?
 }

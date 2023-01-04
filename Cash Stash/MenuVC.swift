@@ -15,11 +15,12 @@ class MenuVC: UITabBarController {
         view.backgroundColor = .lightGray
         tabBar.tintColor = .systemBlue
         let tranRouter = TranRouter.start()
-        let transactionsVC = tranRouter.entry! as UIViewController
-        transactionsVC.tabBarItem = UITabBarItem(title: "Overview", image: UIImage(named: "chart.line.uptrend.xyaxis"), selectedImage: nil)
-        let settingsVC = SettingsVC()
-        settingsVC.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(named: "gearshape"), selectedImage: nil)
-        viewControllers = [transactionsVC, settingsVC]
+        let settRouter = SettRouter.start()
+        let tranView = tranRouter.entry! as UIViewController
+        tranView.tabBarItem = UITabBarItem(title: "Overview", image: UIImage(named: "chart.line.uptrend.xyaxis"), selectedImage: nil)
+        let settView = settRouter.entry! as UIViewController
+        settView.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(named: "gearshape"), selectedImage: nil)
+        viewControllers = [tranView, settView]
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented.")

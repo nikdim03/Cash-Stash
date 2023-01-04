@@ -24,7 +24,7 @@ class TranRouter: TranRouterProtocol {
     static func start() -> TranRouterProtocol {
         let router = TranRouter()
         
-        let view = TransactionsVC()
+        let view = TranView()
         let interactor = TranInteractor()
         let presenter = TranPresenter()
 
@@ -43,15 +43,11 @@ class TranRouter: TranRouterProtocol {
     
     func presentAddTranVC() {
         guard let entry = entry else { return }
-//        let newRouter = RandRouter.createModule()
-//        let newViewController = newRouter.view
-//        entry.present(newViewController as! UIViewController, animated: true, completion: nil)
-        
-        // govnocode (replace to the code above when there is router for addTranVC)
-        let addTransactionVC = AddTransactionVC()
-        addTransactionVC.completion = {
+        let addTrRouter = AddTrRouter.start()
+        var addTrView = addTrRouter.entry
+        addTrView?.completion = {
             entry.presenter?.startRefreshingTransactions()
         }
-        entry.present(addTransactionVC, animated: true)
+        entry.present(addTrView!, animated: true)
     }
 }
