@@ -197,13 +197,16 @@ class StatView: UIViewController, StatViewProtocol {
         }
         presenter?.startRefreshingTransactions(of: incomeExpenseSelector.selectedSegmentIndex == 1)
 //        chartView.handleTap(UITapGestureRecognizer())
-        chartView.draw(.zero)
+//        chartView.draw(.zero)
     }
 
     @objc func fromDatePickerPressed(_ sender: UIDatePicker) {
         DispatchQueue.main.async {
-            self.uptoDatePicker.minimumDate = self.fromDatePicker.date
-            self.fromDate = self.fromDatePicker.date
+            self.dismiss(animated: true) {
+                self.selectDate()
+                self.fromDate = self.fromDatePicker.date
+                self.uptoDatePicker.minimumDate = self.fromDatePicker.date
+            }
             self.showPig()
         }
         presenter?.startRefreshingTransactions(of: incomeExpenseSelector.selectedSegmentIndex == 1)

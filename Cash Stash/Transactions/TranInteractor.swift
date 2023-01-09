@@ -37,11 +37,14 @@ class TranInteractor: TranInteractorProtocol {
     
     func refreshTransactionsList() {
         var localTransactionsModels = makeModels()
-        
+//        let timeout = DispatchWorkItem {
+//            self.presenter?.finishRefreshingTransactions()
+//        }
         Zen.shared.getDiff { [weak self] (result) in
             guard let self = self else { return }
             switch result {
             case .success(let diffResponse):
+//                timeout.cancel()
                 localTransactionsModels.append(contentsOf: self.makeModels(with: diffResponse))
                 self.presenter?.view!.sectionedTransactions = self.groupByDate(transactionCells: localTransactionsModels)
                 DispatchQueue.main.async {
@@ -55,10 +58,17 @@ class TranInteractor: TranInteractorProtocol {
                 //                }
             }
         }
-//        presenter?.view!.sectionedTransactions = groupByDate(transactionCells: localTransactionsModels)
-//        DispatchQueue.main.async {
-//            self.presenter?.finishRefreshingTransactions()
+//        if !Zen.shared.isLoggedIn {
+//            print("Error: timeout 5 sec (logged out)")
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: timeout)
+//        } else {
+//            print("Error: timeout 20 sec (logged in)")
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 20, execute: timeout)
 //        }
+        presenter?.view!.sectionedTransactions = groupByDate(transactionCells: localTransactionsModels)
+        DispatchQueue.main.async {
+            self.presenter?.finishRefreshingTransactions()
+        }
     }
         
     func groupByDate(transactionCells: [TranCellEntity]) -> [Section] {

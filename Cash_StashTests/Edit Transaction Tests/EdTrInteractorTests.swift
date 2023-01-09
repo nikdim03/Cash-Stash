@@ -77,7 +77,9 @@ class EdTrInteractorTests: XCTestCase {
         view.amountTextField.text = "3"
         view.pickerSelection = "wjktg"
         edTrInteractor.manageData()
-        wait(for: [expectation], timeout: 10.0)
+        DispatchQueue.main.async {
+            self.wait(for: [expectation], timeout: 10.0)
+        }
         XCTAssertEqual(mockPresenter.view!.transactions.count, 4)
         XCTAssertEqual(mockPresenter.view!.transactions[3].title, "enji")
     }

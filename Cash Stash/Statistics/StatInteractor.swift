@@ -105,10 +105,10 @@ class StatInteractor: StatInteractorProtocol {
                 //                }
             }
         }
-//        presenter?.view!.sectionedTransactions = groupByDate(transactionCells: localTransactionsModels)
-//        DispatchQueue.main.async {
-//            self.presenter?.finishRefreshingTransactions()
-//        }
+        presenter?.view!.sectionedTransactions = groupByDate(transactionCells: localTransactionsModels)
+        DispatchQueue.main.async {
+            self.presenter?.finishRefreshingTransactions()
+        }
     }
     
     func getPercentage() -> Dictionary<String, Int> {

@@ -219,9 +219,12 @@ class TranView: UIViewController, TranViewProtocol {
     
     @objc func fromDatePickerPressed(_ sender: UIDatePicker) {
         DispatchQueue.main.async {
+            self.dismiss(animated: true) {
+                self.selectDate()
+                self.fromDate = self.fromDatePicker.date
+                self.uptoDatePicker.minimumDate = self.fromDatePicker.date
+            }
             self.showPig()
-            self.uptoDatePicker.minimumDate = self.fromDatePicker.date
-            self.fromDate = self.fromDatePicker.date
         }
         presenter?.startRefreshingTransactions()
     }
