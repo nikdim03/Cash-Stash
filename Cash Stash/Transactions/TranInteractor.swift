@@ -16,7 +16,7 @@ protocol TranInteractorProtocol {
     var presenter: TranPresenterProtocol? { get set }
     func fetchTransactions(with request: NSFetchRequest<TransactionData>)
     func refreshTransactionsList()
-    func applyFilter()
+    func applyFilter(with category: Bool)
 }
 
 class TranInteractor: TranInteractorProtocol {
@@ -55,14 +55,14 @@ class TranInteractor: TranInteractorProtocol {
                 //                }
             }
         }
-        presenter?.view!.sectionedTransactions = groupByDate(transactionCells: localTransactionsModels)
-        DispatchQueue.main.async {
-            self.presenter?.finishRefreshingTransactions()
-        }
+//        presenter?.view!.sectionedTransactions = groupByDate(transactionCells: localTransactionsModels)
+//        DispatchQueue.main.async {
+//            self.presenter?.finishRefreshingTransactions()
+//        }
     }
         
-    func groupByDate(transactionCells: [TransactionCellModel]) -> [Section] {
-        let sectionedCells = Dictionary(grouping: transactionCells, by: { (cell) -> Date in
+    func groupByDate(transactionCells: [TranCellEntity]) -> [Section] {
+        let sectionedCells = Dictionary(grouping: transactionCells.sorted { $0.date > $1.date }, by: { (cell) -> Date in
             let formatter = DateFormatter()
             formatter.dateFormat = "MM/dd/yyyy"
             let str = formatter.string(from: cell.date)
@@ -81,16 +81,17 @@ class TranInteractor: TranInteractorProtocol {
     }
 
     // make transaction cell models fetched from the internet
-    func makeModels(with diffResponse: DiffResponse) -> [TransactionCellModel] {
+    func makeModels(with diffResponse: DiffResponse) -> [TranCellEntity] {
         var transactions = diffResponse.transaction.sorted { $0.date > $1.date }
         transactions = transactions.filter {
             self.updateCategories(with: $0.categories?.first.map { $0.title } ?? "")
             if presenter!.view!.searchText.count > 0 {
+//                print($0.categories?.first?.title)
                 if let amount = Int(presenter!.view!.searchText) {
                     if (Int($0.income) == amount || Int($0.outcome) == amount) && $0.date >= presenter!.view!.fromDate && $0.date <= presenter!.view!.uptoDate {
                         return true
                     }
-                } else if $0.payee?.localizedStandardContains(presenter!.view!.searchText) ?? false && $0.date >= presenter!.view!.fromDate && $0.date <= presenter!.view!.uptoDate {
+                } else if ($0.categories?.first?.title.localizedStandardContains(presenter!.view!.searchText) ?? false || $0.payee?.localizedStandardContains(presenter!.view!.searchText) ?? false) && $0.date >= presenter!.view!.fromDate && $0.date <= presenter!.view!.uptoDate {
                     return true
                 }
                 return false
@@ -99,37 +100,40 @@ class TranInteractor: TranInteractorProtocol {
             }
             return false
         }
-        return transactions.map { TransactionCellModel(transaction: $0) }
+        return transactions.map { TranCellEntity(transaction: $0) }
     }
     
     // make transaction cell models fetched from the database
-    func makeModels() -> [TransactionCellModel] {
+    func makeModels() -> [TranCellEntity] {
         if presenter?.view!.searchText.count == 0 {
             fetchTransactions(with: TransactionData.fetchRequest())
         }
-        var transactionCells = [TransactionCellModel]()
+        var transactionCells = [TranCellEntity]()
 //        localTransactions = [TransactionData(context: context)]
         if presenter!.view!.localTransactions.count > 0 {
             for transaction in presenter!.view!.localTransactions {
-                let transactionCell = TransactionCellModel(localTransaction: transaction)
+                let transactionCell = TranCellEntity(localTransaction: transaction)
                 transactionCells.append(transactionCell)
             }
         }
         return transactionCells
     }
     
-    func applyFilter() {
+    func applyFilter(with category: Bool) {
         let request: NSFetchRequest<TransactionData> = TransactionData.fetchRequest()
-        if let amount = Int(presenter!.view!.searchText) {
-            request.predicate = NSPredicate(format: "amount >= %f AND amount < %f AND date >= %@ AND date <= %@", Float(amount), Float(amount + 1), presenter!.view!.fromDatePicker.date as NSDate, presenter!.view!.uptoDatePicker.date as NSDate)
+        if !category {
+            if let amount = Int(presenter!.view!.searchText) {
+                request.predicate = NSPredicate(format: "amount >= %f AND amount < %f AND date >= %@ AND date <= %@", Float(amount), Float(amount + 1), presenter!.view!.fromDatePicker.date as NSDate, presenter!.view!.uptoDatePicker.date as NSDate)
+            } else {
+                request.predicate = NSPredicate(format: "date >= %@ AND date <= %@ AND (title CONTAINS[cd] %@ OR category CONTAINS[cd] %@)", presenter!.view!.fromDate as NSDate, presenter!.view!.uptoDate as NSDate, presenter!.view!.searchText, presenter!.view!.searchText)
+            }
+
+    //        localTransactions = localTransactions?.filter("title CONTAINS[cd] %@", text).sorted(byKeyPath: "date")
         } else {
-            request.predicate = NSPredicate(format: "date >= %@ AND date <= %@ AND title CONTAINS[cd] %@", presenter!.view!.fromDate as NSDate, presenter!.view!.uptoDate as NSDate, presenter!.view!.searchText)
+            request.predicate = NSPredicate(format: "date >= %@ AND date <= %@ AND category MATCHES[cd] %@", presenter!.view!.fromDate as NSDate, presenter!.view!.uptoDate as NSDate, presenter!.view!.searchText)
         }
-        
+        refreshTransactionsList()
         request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
         fetchTransactions(with: request)
-
-//        localTransactions = localTransactions?.filter("title CONTAINS[cd] %@", text).sorted(byKeyPath: "date")
-        refreshTransactionsList()
     }
 }

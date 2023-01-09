@@ -8,7 +8,7 @@
 import UIKit
 
 extension UIImage {
-    static func expenceCategory(named systemName: String) -> UIImage? {
+    static func expenseCategory(named systemName: String) -> UIImage? {
         return Categories.init(rawValue: systemName)?.image
     }
 

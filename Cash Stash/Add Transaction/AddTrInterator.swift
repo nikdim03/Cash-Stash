@@ -46,11 +46,15 @@ class AddTrInteractor: AddTrInteractorProtocol {
         if presenter!.view!.titleTextField.text!.count > 14 {
             let alert = UIAlertController(title: "Make your title shorter", message: "Enter a brief title", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-            (presenter!.view! as! UIViewController).present(alert, animated: true, completion: nil)
+            DispatchQueue.main.async {
+                (self.presenter!.view! as! UIViewController).present(alert, animated: true, completion: nil)
+            }
         } else if presenter!.view!.amountTextField.text!.count > 8 {
             let alert = UIAlertController(title: "Amount Too Long", message: "Enter smaller amount", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-            (presenter!.view! as! UIViewController).present(alert, animated: true, completion: nil)
+            DispatchQueue.main.async {
+                (self.presenter!.view! as! UIViewController).present(alert, animated: true, completion: nil)
+            }
         } else if presenter!.view!.titleTextField.text?.isEmpty == false && presenter!.view!.amountTextField.text?.isEmpty == false {
             let newTransaction = TransactionData(context: context)
             
@@ -67,7 +71,7 @@ class AddTrInteractor: AddTrInteractorProtocol {
                 newTransaction.setValue(amount, forKey: "amount")
 //                newTransaction.amount = amount
             }
-            newTransaction.setValue(presenter!.view!.commentTextField.text, forKey: "comment")
+            newTransaction.setValue(presenter!.view!.commentTextView.text, forKey: "comment")
             newTransaction.setValue(presenter!.view!.datePicker.date, forKey: "date")
             newTransaction.setValue(presenter!.view!.pickerSelection, forKey: "category")
 //            newTransaction.comment = commentTextField.text
@@ -76,13 +80,17 @@ class AddTrInteractor: AddTrInteractorProtocol {
             presenter!.view!.clearTextFields()
             saveTransaction(transaction: newTransaction)
             presenter!.view!.completion?()
-            (presenter!.view! as! UIViewController).dismiss(animated: true)
+            DispatchQueue.main.async {
+                (self.presenter!.view! as! UIViewController).dismiss(animated: true)
+            }
             //            let menuVC = self.storyboard?.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
             //            self.navigationController?.pushViewController(menuVC, animated: true)
         } else {
             let alert = UIAlertController(title: "Fill in all fields", message: "Please provide correct details", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-            (presenter!.view! as! UIViewController).present(alert, animated: true, completion: nil)
+            DispatchQueue.main.async {
+                (self.presenter!.view! as! UIViewController).present(alert, animated: true, completion: nil)
+            }
         }
     }
 }

@@ -9,13 +9,13 @@ import UIKit
 
 struct Zen {
     static var shared = Zen()
-    private let apiURL = "https://api.zenmoney.ru/v8/diff/"
-    private let clientID = "gf538d3b09035dbd6e3b37b50055ab"
-    private let clienSecret = "c8a832f0fd"
-    private let redirectURI = "cs://oauthcallback"
-    private let authURL = "https://api.zenmoney.ru/oauth2/authorize/"
-    private let requestTokenURL = "https://api.zenmoney.ru/oauth2/token/"
-    public var isLoggedIn: Bool {
+    let apiURL = "https://api.zenmoney.ru/v8/diff/"
+    let clientID = "gf538d3b09035dbd6e3b37b50055ab"
+    let clienSecret = "c8a832f0fd"
+    let redirectURI = "cs://oauthcallback"
+    let authURL = "https://api.zenmoney.ru/oauth2/authorize/"
+    let requestTokenURL = "https://api.zenmoney.ru/oauth2/token/"
+    var isLoggedIn: Bool {
         !Token.shared.accessToken.isEmpty
     }
     

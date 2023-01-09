@@ -10,10 +10,11 @@ import MapKit
 
 struct Section {
     let date: Date
-    let items: [TransactionCellModel]
+    let items: [TranCellEntity]
 }
 
-struct TransactionCellModel {
+struct TranCellEntity {
+    let fromZen: Bool
     let amount: Double
     let isIncome: Bool
     let date: Date
@@ -27,9 +28,10 @@ struct TransactionCellModel {
     let coordinates: CLLocationCoordinate2D?
 
     init(transaction: Transaction) {
+        fromZen = true
         date = transaction.date
         category = transaction.categories?.first.map { $0.title } ?? ""
-        payee = transaction.payee ?? "No Content"
+        payee = transaction.payee ?? "Title missing"
         isIncome = transaction.income > 0 ? true : false
         comment = transaction.comment ?? ""
         if let latitude = transaction.latitude, let longitude = transaction.longitude {
@@ -38,7 +40,7 @@ struct TransactionCellModel {
             coordinates = nil
         }
         if let categoryIconString = transaction.categories?.first?.icon,
-           let image = UIImage.expenceCategory(named: categoryIconString) {
+           let image = UIImage.expenseCategory(named: categoryIconString) {
             categorySymbol = image
             let categoryHash = Int(categoryIconString.hash / 10000000)
 
@@ -69,6 +71,7 @@ struct TransactionCellModel {
     }
     
     init(localTransaction: TransactionData) {
+        fromZen = false
         date = localTransaction.date!
         category = localTransaction.category ?? "Not specified"
         payee = localTransaction.title!

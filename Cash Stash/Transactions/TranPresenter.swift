@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SceneKit
 
 //object
 //protocol
@@ -21,10 +22,11 @@ protocol TranPresenterProtocol {
     func startRefreshingTransactions()
     func finishRefreshingTransactions()
     func createAlert() -> UIAlertController
-    func removeTransaction(at row: Int)
+    func removeTransaction(at row: IndexPath)
     func showAddTranVC()
     func chooseTitleForHeader(with section: Int) -> String
-    func considerFilter()
+    func considerFilter(with category: Bool)
+    func goToDetails(with transaction: TranCellEntity, and indexPath: IndexPath)
 }
 
 class TranPresenter: TranPresenterProtocol {
@@ -51,23 +53,46 @@ class TranPresenter: TranPresenterProtocol {
             }
         })
         DispatchQueue.main.async {
-            self.view!.incomeLabel.text = "+ ₽\(String(format: "%.2f", income))"
+//            if income == Double(Int(income)) {
+            self.view!.incomeLabel.text = "+ ₽\(income.removeZerosFromEnd())"
+//            } else {
+//                self.view!.incomeLabel.text = "+ ₽\(String(format: "%.2f", income))"
+//            }
             self.view!.incomeLabel.textColor = .green
-            self.view!.expenceLabel.text = "- ₽\(String(format: "%.2f", expense))"
-            self.view!.expenceLabel.textColor = .red
+            self.view!.incomeLabel.font = UIFont.boldSystemFont(ofSize: 22)
+//            if expense == Double(Int(expense)) {
+            self.view!.expenseLabel.text = "- ₽\(expense.removeZerosFromEnd())"
+//            } else {
+//                self.view!.expenseLabel.text = "- ₽\(String(format: "%.2f", expense))"
+//            }
+            self.view!.expenseLabel.textColor = .red
+            self.view!.expenseLabel.font = UIFont.boldSystemFont(ofSize: 22)
         }
     }
     
     func startRefreshingTransactions() {
-        view?.stateManager?.state = .loading
         interactor?.refreshTransactionsList()
+//        DispatchQueue.main.async {
+//            self.view?.stateManager?.state = .loading
+//        }
+    }
+    
+    func hidePig() {
+        view!.blurView.removeFromSuperview()
+        view!.scnView.removeFromSuperview()
+        let scene = SCNScene(named: "art.scnassets/piggy_bank.obj")!
+        let pigNode = scene.rootNode.childNodes.first!
+        pigNode.removeAllActions()
     }
     
     func finishRefreshingTransactions() {
-        view!.stateManager?.state = .loaded
-        view!.tableView.reloadData()
+        DispatchQueue.main.async {
+            self.view!.tableView.reloadData()
+            self.hidePig()
+            self.view!.refreshControl.endRefreshing()
+        }
         updateBalance()
-        view!.refreshControl.endRefreshing()
+        view!.ind = 0
     }
     
     func createAlert() -> UIAlertController {
@@ -87,9 +112,29 @@ class TranPresenter: TranPresenterProtocol {
         return alert
     }
     
-    func removeTransaction(at row: Int) {
-        context.delete(view!.localTransactions[row])
-        view!.localTransactions.remove(at: row)
+    func sortLocalTransactions() {
+        view!.localTransactions = view!.localTransactions.sorted {
+            // if the dates are equal, sort alphabetically by title
+            let calendar = Calendar.current
+            let day1 = calendar.component(.day, from: $0.date!)
+            let month1 = calendar.component(.month, from: $0.date!)
+            let year1 = calendar.component(.year, from: $0.date!)
+            let day2 = calendar.component(.day, from: $1.date!)
+            let month2 = calendar.component(.month, from: $1.date!)
+            let year2 = calendar.component(.year, from: $1.date!)
+            if year1 == year2 && month1 == month2 && day1 == day2 {
+                // The dates are equal, so sort by title
+                return $0.title! > $1.title!
+            }
+            // otherwise, sort by date
+            return $0.date! < $1.date!
+        }
+    }
+    
+    func removeTransaction(at indexPath: IndexPath) {
+        sortLocalTransactions()
+        context.delete(view!.localTransactions[view!.localTranDict[indexPath]!])
+        view!.localTransactions.remove(at: view!.localTranDict[indexPath]!)
         do {
             try context.save()
         } catch {
@@ -117,7 +162,13 @@ class TranPresenter: TranPresenterProtocol {
         }
     }
     
-    func considerFilter() {
-        interactor?.applyFilter()
+    func considerFilter(with category: Bool) {
+        if view!.searchText != "" {
+            interactor?.applyFilter(with: category)
+        }
+    }
+    
+    func goToDetails(with transaction: TranCellEntity, and indexPath: IndexPath) {
+        router?.presentTranDetVC(with: transaction, and: indexPath)
     }
 }

@@ -12,18 +12,30 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        window = UIWindow(frame: UIScreen.main.bounds)
+    func transitionToMainApp() {
         let nav = UINavigationController()
         let mainTabBarVC = MenuVC()
         nav.navigationBar.prefersLargeTitles = true
 //        nav.navigationBar.barTintColor = .cyan
         nav.navigationBar.barStyle = .black
         nav.viewControllers = [mainTabBarVC]
-        window?.rootViewController = nav
+        UIView.transition(with: (window!), duration: 0.5, options: .transitionCrossDissolve, animations: {
+            // update the rootViewController
+            self.window!.rootViewController = nav
+        }, completion: nil)
         window?.makeKeyAndVisible()
+    }
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // Override point for customization after application launch.
+        let launchScreen = LaunchScreenVC()
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = launchScreen
+        window?.makeKeyAndVisible()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.transitionToMainApp()
+        }
         return true
     }
     

@@ -137,38 +137,16 @@ class Token {
     }
 }
 
-
-//import KeychainAccess
-//
-//struct Token {
-//    static let shared = Token()
-//    
-//    private let keychain = Keychain(service: "com.dmitriynikulin.Cash-Stash")
-//    public var accessToken: String {
-//        do {
-//            return try keychain.get("accessToken") ?? ""
-//        } catch {
-//            return ""
-//        }
-//    }
-//    
-//    func saveToken(from responseData: AuthResponse) {
-//        keychain["accessToken"] = responseData.accessToken
-//        keychain["expiresIn"] = "\(responseData.expiresIn)"
-//        keychain["refreshToken"] = responseData.refreshToken
-//        keychain["tokenType"] = responseData.tokenType
-//        NotificationCenter.default.post(name: Notification.Name(rawValue: "CS.tokenUpdated"), object: nil)
-//    }
-//    
-//    func removeToken() {
-//        do {
-//            try keychain.remove("accessToken")
-//            try keychain.remove("expiresIn")
-//            try keychain.remove("refreshToken")
-//            try keychain.remove("tokenType")
-//            NotificationCenter.default.post(name: Notification.Name(rawValue: "CS.tokenUpdated"), object: nil)
-//        } catch {
-//            print(error.localizedDescription)
-//        }
-//    }
-//}
+struct AuthResponse: Decodable {
+    let accessToken: String
+    let tokenType: String
+    let expiresIn: Int
+    let refreshToken: String
+    
+    enum CodingKeys: String, CodingKey {
+        case accessToken = "access_token"
+        case tokenType = "token_type"
+        case expiresIn = "expires_in"
+        case refreshToken = "refresh_token"
+    }
+}

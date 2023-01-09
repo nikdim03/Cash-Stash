@@ -12,9 +12,10 @@ import UIKit
 typealias TranEntryPoint = TranViewProtocol & UIViewController
 
 protocol TranRouterProtocol {
-    var entry: TranEntryPoint? { get } //view
+    var entry: TranEntryPoint? { get } // view
     static func start() -> TranRouterProtocol
     func presentAddTranVC()
+    func presentTranDetVC(with transaction: TranCellEntity, and indexPath: IndexPath)
 }
 
 class TranRouter: TranRouterProtocol {
@@ -49,5 +50,18 @@ class TranRouter: TranRouterProtocol {
             entry.presenter?.startRefreshingTransactions()
         }
         entry.present(addTrView!, animated: true)
+    }
+    
+    func presentTranDetVC(with transaction: TranCellEntity, and indexPath: IndexPath) {
+        guard let entry = entry else { return }
+        let tranDetRouter = TranDetRouter.start(with: TranDetEntity(fromZen: transaction.fromZen, payee: transaction.payee, amount: transaction.amount, currency: transaction.currency, isIncome: transaction.isIncome, account: transaction.account, category: transaction.category, categoryColor: transaction.categoryColor, categorySymbol: transaction.categorySymbol, comment: transaction.comment, date: transaction.date, coordinates: transaction.coordinates))
+        var tranDetView = tranDetRouter.entry
+        tranDetView?.deletion = {
+            entry.presenter?.removeTransaction(at: indexPath)
+        }
+        tranDetView?.completion = {
+            entry.presenter?.startRefreshingTransactions()
+        }
+        entry.present(tranDetRouter.entry!, animated: true)
     }
 }
