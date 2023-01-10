@@ -1,5 +1,6 @@
 # Cash Stash
 Take control of your finances and achieve your money goals with Cash Stash - the ultimate budgeting app for iOS.
+![Cash Stash App Icon](https://i.postimg.cc/J4RJkFbj/nikdim-03-a-modern-looking-icon-for-a-budgeting-ios-app-in-brig-f230725b-0441-44e3-ae45-dca87cb67215.png=1)
 
 ## Key Features
 - Analyze your income and expenses
