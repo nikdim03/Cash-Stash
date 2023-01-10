@@ -48,6 +48,7 @@ class TranInteractor: TranInteractorProtocol {
                 localTransactionsModels.append(contentsOf: self.makeModels(with: diffResponse))
                 self.presenter?.view!.sectionedTransactions = self.groupByDate(transactionCells: localTransactionsModels)
                 DispatchQueue.main.async {
+                    // Update the UI on the main queue when finished
                     self.presenter?.finishRefreshingTransactions()
                 }
             case .failure(let error):
@@ -67,6 +68,7 @@ class TranInteractor: TranInteractorProtocol {
 //        }
         presenter?.view!.sectionedTransactions = groupByDate(transactionCells: localTransactionsModels)
         DispatchQueue.main.async {
+            // Update the UI on the main queue when finished
             self.presenter?.finishRefreshingTransactions()
         }
     }

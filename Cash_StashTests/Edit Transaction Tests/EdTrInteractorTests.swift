@@ -11,25 +11,26 @@ import XCTest
 class EdTrInteractorTests: XCTestCase {
     var edTrRouter: EdTrRouterProtocol!
     var edTrInteractor: EdTrInteractorProtocol!
-    var initData: InitData!
+    var validInitData: InitData!
+    var invalidInitData: InitData!
     
     override func setUp() {
         super.setUp()
-        initData = InitData(segInd: 0, title: "Title", amount: "+ ₽20", comment: nil, category: "Groeries", date: "12")
-
-        edTrRouter = EdTrRouter.start(with: initData)
+        validInitData = InitData(segInd: -1, title: "Test Title", amount: "100", comment: "Test Comment", category: "Test Category", date: "Jan 10, 2022 at 5:55 AM")
+        invalidInitData = InitData(segInd: -1, title: "Test Title", amount: "100", comment: "Test Comment", category: "Test Category", date: "Jan 10, 2022 at 5:55 AM")
+        edTrRouter = EdTrRouter.start(with: validInitData)
         edTrInteractor = edTrRouter.entry!.presenter!.interactor
     }
     
     override func tearDown() {
-        edTrRouter = EdTrRouter.start(with: initData)
+        edTrRouter = EdTrRouter.start(with: validInitData)
         edTrInteractor = edTrRouter.entry!.presenter!.interactor
         super.tearDown()
     }
     
     func testFetchTransactions() {
         let edTrInteractor = EdTrInteractor()
-        let view = EdTrView(initData: initData)
+        let view = EdTrView(initData: validInitData)
         let mockPresenter = MockEdTrPresenter()
         mockPresenter.view = view
         edTrInteractor.presenter = mockPresenter
@@ -42,29 +43,29 @@ class EdTrInteractorTests: XCTestCase {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let edTrInteractor = EdTrInteractor()
         let mockPresenter = MockEdTrPresenter()
-        let view = EdTrView(initData: initData)
+        let view = EdTrView(initData: validInitData)
         mockPresenter.view = view
         edTrInteractor.presenter = mockPresenter
         let newTransaction = TransactionData(context: context)
         newTransaction.setValue(true, forKey: "isIncome")
-        newTransaction.setValue("Transaction 3", forKey: "title")
+        newTransaction.setValue("Test Transaction", forKey: "title")
         newTransaction.setValue(2, forKey: "amount")
-        newTransaction.setValue("com", forKey: "comment")
+        newTransaction.setValue("Test Comment", forKey: "comment")
         newTransaction.setValue(Date(), forKey: "date")
-        newTransaction.setValue("cat", forKey: "category")
+        newTransaction.setValue("Test Category", forKey: "category")
         edTrInteractor.saveTransaction(transaction: newTransaction)
-        XCTAssertEqual(mockPresenter.view!.transactions.last!.title, "Transaction 3")
+        XCTAssertEqual(mockPresenter.view!.transactions.last!.title, "Test Transaction")
     }
     
     func testManageDataWithValidInput() {
         let edTrInteractor = EdTrInteractor()
-        let view = EdTrView(initData: initData)
+        let view = EdTrView(initData: validInitData)
         let mockPresenter = MockEdTrPresenter()
         mockPresenter.view = view
         view.categories = ["a", "b", "c"]
         edTrInteractor.presenter = mockPresenter
         mockPresenter.view!.presenter?.fetchCategoriesFromDefaults()
-        mockPresenter.view!.titleTextField.text = "Transaction 4"
+        mockPresenter.view!.titleTextField.text = "Test Transaction"
         mockPresenter.view!.amountTextField.text = "100"
         let expectation = XCTestExpectation(description: "Valid input")
         view.transactions.append(TransactionData())
@@ -73,18 +74,48 @@ class EdTrInteractorTests: XCTestCase {
         mockPresenter.view!.completion = {
             expectation.fulfill()
         }
-        view.titleTextField.text = "enji"
-        view.amountTextField.text = "3"
-        view.pickerSelection = "wjktg"
+        view.titleTextField.text = "Last"
+        view.amountTextField.text = "100"
+        view.pickerSelection = "Some Category"
         edTrInteractor.manageData()
         DispatchQueue.main.async {
             self.wait(for: [expectation], timeout: 10.0)
         }
         XCTAssertEqual(mockPresenter.view!.transactions.count, 4)
-        XCTAssertEqual(mockPresenter.view!.transactions[3].title, "enji")
+        XCTAssertEqual(mockPresenter.view!.transactions.last?.title, "Last")
     }
-
+    
+    func testManageDataWithInvalidInput() {
+        let edTrInteractor = EdTrInteractor()
+        let view = EdTrView(initData: validInitData)
+        let mockPresenter = MockEdTrPresenter()
+        mockPresenter.view = view
+        view.categories = ["a", "b", "c"]
+        edTrInteractor.presenter = mockPresenter
+        mockPresenter.view!.presenter?.fetchCategoriesFromDefaults()
+        mockPresenter.view!.titleTextField.text = "Test Transaction"
+        mockPresenter.view!.amountTextField.text = "100"
+        let expectation = XCTestExpectation(description: "Invalid input")
+        let transaction = TransactionData(context: (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext)
+        transaction.title = "Test Transaction"
+        view.transactions.append(TransactionData())
+        view.transactions.append(TransactionData())
+        view.transactions.append(transaction)
+        mockPresenter.view!.completion = {
+            expectation.fulfill()
+        }
+        view.titleTextField.text = "Lastagepoijznksvdgoiskgstrdfx;an;kwlzvnkjnsgzsntgxdklgd;vngxtdl;k jdoijpoljrdtovl je[olvdjol hvhr"
+        view.amountTextField.text = "100"
+        view.pickerSelection = "Some Category"
+        edTrInteractor.manageData()
+        DispatchQueue.main.async {
+            self.wait(for: [expectation], timeout: 10.0)
+        }
+        XCTAssertEqual(mockPresenter.view!.transactions.count, 3)
+        XCTAssertEqual(mockPresenter.view!.transactions.last?.title, "Test Transaction")
+    }
 }
+
 
 class MockEdTrPresenter: EdTrPresenterProtocol {
     var view: EdTrViewProtocol?

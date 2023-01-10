@@ -15,7 +15,8 @@ class EdTrViewTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        initData = InitData(segInd: 0, title: "Title", amount: "+ ₽20", comment: nil, category: "Groeries", date: "12")
+        // Set up input values
+        initData = InitData(segInd: -1, title: "Test Title", amount: "100", comment: "Test Comment", category: "Test Category", date: "Jan 10, 2022 at 5:55 AM")
         edTrRouter = EdTrRouter.start(with: initData)
         edTrView = edTrRouter.entry
     }
@@ -25,11 +26,26 @@ class EdTrViewTests: XCTestCase {
         super.tearDown()
     }
     
+    func testInitFields() {
+
+        // Initialize mock object
+        let mockEdTrView = EdTrView(initData: initData)
+        mockEdTrView.initFields()
+        // Assert that fields are set correctly
+        XCTAssertEqual(mockEdTrView.transactionTypePicker.selectedSegmentIndex, -1)
+        XCTAssertEqual(mockEdTrView.titleTextField.text, initData.title)
+        XCTAssertEqual(mockEdTrView.amountTextField.text, initData.amount)
+        XCTAssertEqual(mockEdTrView.commentTextView.text, initData.comment)
+        // Assert that categoryPicker is set correctly
+        XCTAssertEqual(mockEdTrView.pickerSelection, initData.category)
+        XCTAssertEqual(mockEdTrView.datePicker.date, initData.date)
+    }
+
     func testClearTextFields() {
         let edTrView = EdTrView(initData: initData)
-        edTrView.titleTextField.text = "Title"
-        edTrView.amountTextField.text = "50"
-        edTrView.commentTextView.text = "Comment"
+        edTrView.titleTextField.text = "Test Title"
+        edTrView.amountTextField.text = "100"
+        edTrView.commentTextView.text = "Test Comment"
         edTrView.clearTextFields()
         XCTAssertEqual(edTrView.titleTextField.text, "")
         XCTAssertEqual(edTrView.amountTextField.text, "")

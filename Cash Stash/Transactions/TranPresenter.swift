@@ -71,7 +71,10 @@ class TranPresenter: TranPresenterProtocol {
     }
     
     func startRefreshingTransactions() {
-        interactor?.refreshTransactionsList()
+        // Perform long-running tasks or network requests on a background queue
+        DispatchQueue.global().async {
+            self.interactor?.refreshTransactionsList()
+        }
 //        DispatchQueue.main.async {
 //            self.view?.stateManager?.state = .loading
 //        }
@@ -91,6 +94,7 @@ class TranPresenter: TranPresenterProtocol {
             self.hidePig()
             self.view!.refreshControl.endRefreshing()
         }
+//        view!.isRefreshing = false
         updateBalance()
         view!.ind = 0
     }

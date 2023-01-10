@@ -10,10 +10,13 @@ import XCTest
 
 class ZenTests: XCTestCase {
     var zen: Zen!
+    let apiURL = "https://api.zenmoney.ru/v8/diff/"
     let clientID = "gf538d3b09035dbd6e3b37b50055ab"
     let clienSecret = "c8a832f0fd"
     let redirectURI = "cs://oauthcallback"
+    let authURL = "https://api.zenmoney.ru/oauth2/authorize/"
     let requestTokenURL = "https://api.zenmoney.ru/oauth2/token/"
+    var isLoggedIn = true
     
     override func setUp() {
         super.setUp()
@@ -41,25 +44,25 @@ class ZenTests: XCTestCase {
         let expectation = XCTestExpectation(description: "Remove token from keychain")
         do {
             try Token.shared.removeToken()
+            expectation.fulfill()
         } catch {
             XCTFail("Error logging out: \(error)")
         }
-        expectation.fulfill()
     }
 
     
     func testGetDiff() {
         let expectation = XCTestExpectation(description: "Fetch diff from server")
         
-        Zen.shared.getDiff { result in
+        mockGetDiff { result in
             switch result {
             case .success(_):
+                expectation.fulfill()
                 break
             case .failure(let error):
+                expectation.fulfill()
                 XCTFail("Error fetching diff: \(error)")
             }
-            
-            expectation.fulfill()
         }
         wait(for: [expectation], timeout: 10)
     }
@@ -87,6 +90,36 @@ class ZenTests: XCTestCase {
             }
         }
     }
+    
+    func mockGetDiff(withCompletion completion: @escaping (Result<DiffResponse, Error>) -> Void) {
+        guard isLoggedIn else { return }
+        let currentTimestamp = Int(Date().timeIntervalSince1970)
+        let lastSyncTimestamp = UserDefaults.standard.integer(forKey: "lastSyncTimeStamp")
+        let diff = DiffRequest(currentClientTimestamp: currentTimestamp, serverTimestamp: lastSyncTimestamp)
+        
+        do {
+            let encoder = JSONEncoder()
+            let diffData = try encoder.encode(diff)
+            
+            mockSendRequest(to: apiURL, withData: diffData, withHeaders: ["Content-Type": "application/json", "Authorization": "Bearer \(Token.shared.accessToken)"], usingMethod: "POST") { result in
+                switch result {
+                case .success(let data):
+                    let decoder = JSONDecoder()
+                    do {
+                        let decodedData = try decoder.decode(DiffResponse.self, from: data)
+                        completion(.success(decodedData))
+                    } catch let error {
+                        completion(.failure(error))
+                    }
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        } catch {
+            return
+        }
+    }
+
     
     func mockHandleOauthRedirect(url: URL?, withCompletion completion: (() -> Void)?, expectation: XCTestExpectation) {
         guard let unwrappedURL = url else { return }

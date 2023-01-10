@@ -37,7 +37,9 @@ class StatPresenter: StatPresenterProtocol {
     }
     
     func startRefreshingTransactions(of type: Bool) {
-        interactor?.refreshTransactionsList(with: type)
+        DispatchQueue.global().async {
+            self.interactor?.refreshTransactionsList(with: type)
+        }
     }
     
     func finishRefreshingTransactions() {
@@ -45,7 +47,7 @@ class StatPresenter: StatPresenterProtocol {
             view!.dataFetched = true
             view!.firstConfig()
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        DispatchQueue.main.async() {
             self.view!.tableView.reloadData()
             (self.chartView as! ChartView).handleTap(UITapGestureRecognizer())
             self.hidePig()

@@ -32,6 +32,7 @@ protocol TranViewProtocol {
     var blurView: UIVisualEffectView { get set }
     var scnView: SCNView { get set }
     var ind: Int { get set }
+//    var isRefreshing: Bool { get set }
 }
 
 class TranView: UIViewController, TranViewProtocol {
@@ -76,10 +77,11 @@ class TranView: UIViewController, TranViewProtocol {
     var categories = [String]()
     var searchText = ""
     var ind = 0
+//    var isRefreshing = false
+//    var coord = CGFloat(0)
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter?.startRefreshingTransactions()
         presenter?.initCategoriesFromDefaults()
         configureTrashButton()
         configureBalanceStackView()
@@ -88,6 +90,7 @@ class TranView: UIViewController, TranViewProtocol {
         configureSearchController()
         configureAddStackView()
         showPig() // already on main thread
+        presenter?.startRefreshingTransactions()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -305,6 +308,8 @@ class TranView: UIViewController, TranViewProtocol {
 //            }
         }
         presenter?.startRefreshingTransactions()
+
+//        presenter?.startRefreshingTransactions()
     }
 }
 
@@ -373,6 +378,21 @@ class TransactionCell: UITableViewCell {
 
 //MARK: - TranView Extensions
 extension TranView: UITableViewDelegate, UITableViewDataSource {
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        if isRefreshing { return }
+//        isRefreshing = true
+//        coord = scrollView.contentOffset.y
+//        print(scrollView.contentOffset.y)
+//        if scrollView.contentOffset.y < 0 {
+//            showLoadingAnimation()
+//        }
+//    }
+//
+//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+//        print(#function)
+//        isRefreshing = false
+//    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         sectionedTransactions.count
     }

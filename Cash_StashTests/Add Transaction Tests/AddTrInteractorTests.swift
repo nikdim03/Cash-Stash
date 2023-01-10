@@ -44,13 +44,13 @@ class AddTrInteractorTests: XCTestCase {
         addTrInteractor.presenter = mockPresenter
         let newTransaction = TransactionData(context: context)
         newTransaction.setValue(true, forKey: "isIncome")
-        newTransaction.setValue("Transaction 3", forKey: "title")
+        newTransaction.setValue("Test Transaction", forKey: "title")
         newTransaction.setValue(2, forKey: "amount")
-        newTransaction.setValue("com", forKey: "comment")
+        newTransaction.setValue("Test Comment", forKey: "comment")
         newTransaction.setValue(Date(), forKey: "date")
-        newTransaction.setValue("cat", forKey: "category")
+        newTransaction.setValue("Test Category", forKey: "category")
         addTrInteractor.saveTransaction(transaction: newTransaction)
-        XCTAssertEqual(mockPresenter.view!.transactions.last!.title, "Transaction 3")
+        XCTAssertEqual(mockPresenter.view!.transactions.last!.title, "Test Transaction")
     }
     
     func testManageDataWithValidInput() {
@@ -61,7 +61,7 @@ class AddTrInteractorTests: XCTestCase {
         view.categories = ["a", "b", "c"]
         addTrInteractor.presenter = mockPresenter
         mockPresenter.view!.presenter?.fetchCategoriesFromDefaults()
-        mockPresenter.view!.titleTextField.text = "Transaction 4"
+        mockPresenter.view!.titleTextField.text = "Test Transaction"
         mockPresenter.view!.amountTextField.text = "100"
         let expectation = XCTestExpectation(description: "Valid input")
         view.transactions.append(TransactionData())
@@ -70,15 +70,46 @@ class AddTrInteractorTests: XCTestCase {
         mockPresenter.view!.completion = {
             expectation.fulfill()
         }
-        view.titleTextField.text = "enji"
-        view.amountTextField.text = "3"
-        view.pickerSelection = "wjktg"
+        view.titleTextField.text = "Last"
+        view.amountTextField.text = "100"
+        view.pickerSelection = "Some Category"
         addTrInteractor.manageData()
-        wait(for: [expectation], timeout: 1.0)
+        DispatchQueue.main.async {
+            self.wait(for: [expectation], timeout: 10.0)
+        }
         XCTAssertEqual(mockPresenter.view!.transactions.count, 4)
-        XCTAssertEqual(mockPresenter.view!.transactions[3].title, "enji")
+        XCTAssertEqual(mockPresenter.view!.transactions.last?.title, "Last")
     }
-
+    
+    func testManageDataWithInvalidInput() {
+        let addTrInteractor = AddTrInteractor()
+        let view = AddTrView()
+        let mockPresenter = MockAddTrPresenter()
+        mockPresenter.view = view
+        view.categories = ["a", "b", "c"]
+        addTrInteractor.presenter = mockPresenter
+        mockPresenter.view!.presenter?.fetchCategoriesFromDefaults()
+        mockPresenter.view!.titleTextField.text = "Test Transaction"
+        mockPresenter.view!.amountTextField.text = "100"
+        let expectation = XCTestExpectation(description: "Invalid input")
+        let transaction = TransactionData(context: (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext)
+        transaction.title = "Test Transaction"
+        view.transactions.append(TransactionData())
+        view.transactions.append(TransactionData())
+        view.transactions.append(transaction)
+        mockPresenter.view!.completion = {
+            expectation.fulfill()
+        }
+        view.titleTextField.text = "Lastagepoijznksvdgoiskgstrdfx;an;kwlzvnkjnsgzsntgxdklgd;vngxtdl;k jdoijpoljrdtovl je[olvdjol hvhr"
+        view.amountTextField.text = "100"
+        view.pickerSelection = "Some Category"
+        addTrInteractor.manageData()
+        DispatchQueue.main.async {
+            self.wait(for: [expectation], timeout: 10.0)
+        }
+        XCTAssertEqual(mockPresenter.view!.transactions.count, 3)
+        XCTAssertEqual(mockPresenter.view!.transactions.last?.title, "Test Transaction")
+    }
 }
 
 class MockAddTrPresenter: AddTrPresenterProtocol {
